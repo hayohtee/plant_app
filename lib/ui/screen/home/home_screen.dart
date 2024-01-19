@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:plant_app/constants.dart';
 import 'package:plant_app/model/plant.dart';
+import 'package:plant_app/plants_provider.dart';
+import 'package:plant_app/ui/screen/home/plant_categories.dart';
 import 'package:plant_app/ui/screen/home/plant_item.dart';
-import 'package:plant_app/ui/screen/home/recommended_options.dart';
-import 'package:plant_app/ui/screen/home/recommended_plants.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,18 +14,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final plantList = Plant.plantList;
-  final plantTypes = <String>[
-    'Recommended',
-    'Indoor',
-    'Outdoor',
-    'Garden',
-    'Supplement'
-  ];
+  
   int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    final plantList = context.select<PlantsProvider, List<Plant>>(
+      (provider) => provider.plantList,
+    );
+
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -50,25 +48,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          SliverToBoxAdapter(
-            child: SizedBox(
-              height: 50,
-              child: RecommendedOptions(
-                onSelect: (index) {
-                  setState(() {
-                    selectedIndex = index;
-                  });
-                },
-                options: plantTypes,
-                selectedIndex: selectedIndex,
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: SizedBox(
-              height: 270,
-              child: RecommendedPlants(plants: plantList),
-            ),
+          const SliverToBoxAdapter(
+            child: PlantCategories()
           ),
           const SliverPadding(
             padding: EdgeInsets.all(16),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:plant_app/plants_provider.dart';
 import 'package:plant_app/ui/screen/onboarding/onboarding_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MainApp());
@@ -10,9 +13,17 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Plant App',
-      home: OnBoardingScreen()
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.transparent,
+    ));
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
+    return ChangeNotifierProvider(
+      create: (context) => PlantsProvider(),
+      child: const MaterialApp(
+        title: 'Plant App',
+        home: OnBoardingScreen(),
+      ),
     );
   }
 }
