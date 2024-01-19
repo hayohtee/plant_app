@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:plant_app/constants.dart';
-import 'package:plant_app/model/plant.dart';
 import 'package:plant_app/plants_provider.dart';
+import 'package:plant_app/ui/screen/detail/detail_screen.dart';
 import 'package:plant_app/ui/screen/home/plant_card.dart';
 import 'package:provider/provider.dart';
 
@@ -24,9 +25,8 @@ class _PlantCategoriesState extends State<PlantCategories> {
 
   @override
   Widget build(BuildContext context) {
-    final plants = context.select<PlantsProvider, List<Plant>>(
-      (provider) => provider.getPlantsByCategory(),
-    );
+    final plants = context.watch<PlantsProvider>().getPlantsByCategory();
+
     return Column(
       children: [
         SizedBox(
@@ -73,18 +73,29 @@ class _PlantCategoriesState extends State<PlantCategories> {
               final currentPlant = plants[index];
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: PlantCard(
-                  plant: currentPlant,
-                  icon: currentPlant.isFavorite
-                      ? Icons.favorite
-                      : Icons.favorite_border,
-                  onPressed: () {
-                    setState(() {
-                      context
-                        .read<PlantsProvider>()
-                        .toggleFavorite(currentPlant.plantId);
-                    });
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      PageTransition(
+                        child: DetailScreen(plantId: currentPlant.plantId),
+                        type: PageTransitionType.bottomToTop,
+                      ),
+                    );
                   },
+                  child: PlantCard(
+                    plant: currentPlant,
+                    icon: currentPlant.isFavorite
+                        ? Icons.favorite
+                        : Icons.favorite_border,
+                    onPressed: () {
+                      setState(() {
+                        context
+                            .read<PlantsProvider>()
+                            .toggleFavorite(currentPlant.plantId);
+                      });
+                    },
+                  ),
                 ),
               );
             },
