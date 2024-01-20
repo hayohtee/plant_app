@@ -9,10 +9,11 @@ class DetailScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Stack(
       children: [
         SizedBox(
-          height: 350,
+          height: size.height * 0.4,
           child: Image.asset(plant.imageURL),
         ),
         Positioned(
