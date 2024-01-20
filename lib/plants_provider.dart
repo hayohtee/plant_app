@@ -170,6 +170,12 @@ class PlantsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void toggleSelected(int plantId) {
+    final plant = getPlantById(plantId);
+    plant.isSelected = !plant.isSelected;
+    notifyListeners();
+  }
+
   void updatePlantCategory(String category) {
     _currentPlantCategory = category;
     notifyListeners();
