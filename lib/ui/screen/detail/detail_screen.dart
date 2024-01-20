@@ -7,15 +7,20 @@ import 'package:plant_app/ui/screen/detail/detail_screen_body.dart';
 import 'package:plant_app/ui/screen/detail/detail_screen_footer.dart';
 import 'package:provider/provider.dart';
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key, required this.plantId});
 
   final int plantId;
 
   @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
+  @override
   Widget build(BuildContext context) {
     final plant = context.select<PlantsProvider, Plant>(
-      (provider) => provider.getPlantById(plantId),
+      (provider) => provider.getPlantById(widget.plantId),
     );
 
     return Scaffold(
@@ -42,10 +47,18 @@ class DetailScreen extends StatelessWidget {
           )
         ],
       ),
-      floatingActionButton: const FloatingActionButton(
-        onPressed: null,
-        backgroundColor: Constants.primaryColor,
-        child: Icon(Icons.shopping_cart, color: Colors.white,)
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            context.read<PlantsProvider>().toggleSelected(plant.plantId);
+          });
+        },
+        backgroundColor: plant.isSelected
+            ? Constants.primaryColor.withOpacity(0.5)
+            : Colors.white,
+        foregroundColor:
+            plant.isSelected ? Colors.white : Constants.primaryColor,
+        child: const Icon(Icons.shopping_cart),
       ),
     );
   }
