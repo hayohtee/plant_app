@@ -5,7 +5,7 @@ import 'package:plant_app/model/plant.dart';
 import 'package:plant_app/plants_provider.dart';
 import 'package:plant_app/ui/screen/detail/detail_screen.dart';
 import 'package:plant_app/ui/screen/home/plant_categories.dart';
-import 'package:plant_app/ui/screen/home/plant_item.dart';
+import 'package:plant_app/ui/component/plant_item.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -68,18 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
               itemCount: plantList.length,
               itemBuilder: (context, index) {
                 final currentPlant = plantList[index];
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      PageTransition(
-                        child: DetailScreen(plantId: currentPlant.plantId),
-                        type: PageTransitionType.bottomToTop,
-                      ),
-                    );
-                  },
-                  child: PlantItem(plant: currentPlant),
-                );
+                return PlantItem(plant: currentPlant);
               },
             ),
           )
