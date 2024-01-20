@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:plant_app/constants.dart';
 import 'package:plant_app/model/plant.dart';
 import 'package:plant_app/plants_provider.dart';
-import 'package:plant_app/ui/screen/detail/detail_screen.dart';
 import 'package:plant_app/ui/screen/home/plant_categories.dart';
 import 'package:plant_app/ui/component/plant_item.dart';
 import 'package:provider/provider.dart';
